@@ -34,4 +34,72 @@ class ShainController extends Controller
         $shain->getList();
         return view('shain',$shain->data);
     }
+
+    public function dispNewRegist(Request $request)
+    {
+        $shain = new Shain();
+        $shain->makeKengenList();
+
+        $shain->data["title"] = "社員マスタ新規登録";
+        $shain->data["action"] = "checkshaindata";
+
+        return view("shainRegist", $shain->data);
+    }
+
+    public function checkShainData(Request $request)
+    {
+        $shain = new Shain();
+        $shain->makeKengenList();
+        
+        $shain->data["shain_code"] = $request->get("shain_code");
+        $shain->data["shain_name"] = $request->get("shain_name");
+        $shain->data["shain_name_kana"] = $request->get("shain_name_kana");
+        $shain->data["password"] = $request->get("password");
+        $shain->data["password2"] = $request->get("password2");
+        $shain->data["login_flg"] = $request->get("login_flg");
+        $shain->data["mail_address"] = $request->get("mail_address");
+        $shain->data["kengen_code"] = $request->get("kengen_code");
+        $shain->data["delete_flg"] = $request->get("delete_flg");
+
+        //チェックとエラー処理
+        if (!$shain->check()) {
+            $shain->data["title"] = "社員マスタ新規登録";
+            $shain->data["action"] = "checkshaindata";
+            return view('shainRegist', $shain->data);
+        }
+        
+        //確認画面へ遷移
+        $shain->data["title"] = "社員データ登録確認";
+        $shain->data["action"] = "exeinstshain";
+
+        return view("shainConfilm",$shain->data);
+    }
+
+    public function exeInstShain(Request $request) {
+        $session = $request->getSession();
+        //shainモデルのインスタンス化
+        $shain = new Shain();
+        //画面データをモデルに継承
+        $shain->shain_code = $request->get("shain_code");
+        $shain->shain_name = $request->get("shain_name");
+        $shain->shain_name_kana = $request->get("shain_name_kana");
+        $shain->password = $request->get("password");
+        $shain->login_flg = $request->get("login_flg");
+        $shain->mail_address = $request->get("mail_address");
+        $shain->kengen_code = $request->get("kengen_code");
+        $shain->biko = "";
+        $shain->delete_flg = $request->get("delete_flg");
+        $shain->created_on = date('Y-m-d H:i:s');        
+        $shain->created_by = $session->get("login_shain_code");
+        $shain->updated_on = date('Y-m-d H:i:s');
+        $shain->updated_by = $session->get("login_shain_code");
+
+        //実際の登録処理
+        $shain->save();
+
+        //完了画面の表示
+        return view("shainComplete");
+    }
+
+
 }

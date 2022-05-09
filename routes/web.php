@@ -22,10 +22,14 @@ Route::get('/','LoginController@index');
 
 Route::post('/put_login','LoginController@putLogin');
 
-Route::get('/menu','MenuController@index');
+Route::get('/menu','MenuController@index')->name('/menu');
 
 Route::get('/mst_shain','ShainController@index');
 
 Route::post('/searchshain', 'ShainController@kensaku');
-
 Route::get('/searchshain', 'ShainController@kensaku');
+
+Route::post('/shainregist', 'ShainController@dispNewRegist');
+Route::post('/shainconfilm', 'ShainController@dispShainConfilm');
+Route::post('/checkshaindata', 'ShainController@checkShainData');
+Route::post('/exeinstshain', 'ShainController@exeInstShain');

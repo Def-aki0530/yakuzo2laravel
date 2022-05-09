@@ -18,7 +18,17 @@ class Shain extends Model
         "kengen_list" => array(),
         "kengen_code" => "",
         "delete_flg" => "",
-        "list" => array()
+        "list" => array(),
+        "shain_code"=>"",
+        "shain_name"=>"",
+        "shain_name_kana"=>"",
+        "password"=>"",
+        "password2"=>"",
+        "mail_address"=>"",
+        "kengen_name"=>"",
+        "title"=>"",
+        "action"=>"",
+        "msg"=>"",
     );
 
     public function makeKengenList(){
@@ -51,5 +61,22 @@ class Shain extends Model
 
         $this->data["list"] = $result->paginate(25);
 
+    }
+
+    public function check() {
+        //存在チェック
+        $result = Shain::where('shain_code', $this->data['shain_code'])->count();
+
+        if($result != 0) {
+            $this->data["msg"] = "この社員コードはすでに使用済みです。";
+            return false;
+        }
+
+        if($this->data["password"] != $this->data["password2"]) {
+            $this->data["msg"] = "パスワードと確認用のパスワードが一致していません";
+            return false;
+        }
+
+        return true;
     }
 }

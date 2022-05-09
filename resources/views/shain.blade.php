@@ -44,8 +44,8 @@
                         </select>
                     </td>
                     <td>
-                        <button type="submit" @if($delete_flg == '0') selected @endif >検索</button>
-                        <button type="submit" @if($delete_flg == '0') selected @endif>新規作成</button>
+                        <button type="submit">検索</button>
+                        <button type="submit" formaction="shainregist">新規作成</button>
                     </td>
                 </tr>
             </table>
