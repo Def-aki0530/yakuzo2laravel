@@ -87,6 +87,7 @@
                     @endif
                     <td>
                         <form action="shainedit" method="post">
+                            @csrf
                             <input type="hidden" name="shain_code" value="{{$map->shain_code}}">
                             <button type="submit">編集</button>
                         </form>

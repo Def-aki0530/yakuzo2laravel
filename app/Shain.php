@@ -29,6 +29,7 @@ class Shain extends Model
         "title"=>"",
         "action"=>"",
         "msg"=>"",
+        "edit"=>""
     );
 
     public function makeKengenList(){
@@ -65,18 +66,33 @@ class Shain extends Model
 
     public function check() {
         //存在チェック
-        $result = Shain::where('shain_code', $this->data['shain_code'])->count();
+        if($this->data["edit"] == ""){
+            $result = Shain::where('shain_code', $this->data['shain_code'])->count();
 
-        if($result != 0) {
-            $this->data["msg"] = "この社員コードはすでに使用済みです。";
-            return false;
+            if($result != 0) {
+                $this->data["msg"] = "この社員コードはすでに使用済みです。";
+                return false;
+            }
         }
 
+        //関連チェック
         if($this->data["password"] != $this->data["password2"]) {
             $this->data["msg"] = "パスワードと確認用のパスワードが一致していません";
             return false;
         }
 
         return true;
+    }
+
+    public function getShainData(){
+        $result = self::where('shain_code', $this->data['shain_code'])->first();
+
+        $this->data['shain_name'] = $result->shain_name;
+        $this->data['shain_name_kana'] = $result->shain_name_kana;
+        $this->data['password'] = $result->password;
+        $this->data['login_flg'] = $result->login_flg;
+        $this->data['mail_address'] = $result->mail_address;
+        $this->data['kengen_code'] = $result->kengen_code;
+        $this->data['delete_flg'] = $result->delete_flg;
     }
 }

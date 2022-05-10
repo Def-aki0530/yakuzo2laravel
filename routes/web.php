@@ -31,5 +31,8 @@ Route::get('/searchshain', 'ShainController@kensaku');
 
 Route::post('/shainregist', 'ShainController@dispNewRegist');
 Route::post('/shainconfilm', 'ShainController@dispShainConfilm');
-Route::post('/checkshaindata', 'ShainController@checkShainData');
+Route::post('/checkshaindata/{edit}', 'ShainController@checkShainData');
 Route::post('/exeinstshain', 'ShainController@exeInstShain');
+
+Route::post('/shainedit', 'ShainController@dispEditRegist');
+Route::post('/exeupdshain','ShainController@exeUpdShain')->name('/exeupdshain');
