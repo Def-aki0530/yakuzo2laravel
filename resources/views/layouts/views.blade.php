@@ -24,7 +24,7 @@
 			<p>{{session('login_tenpo_name')}}</p>
 		</div>
 		<div class="header-contents">
-			<a href="/menu">メニューへ戻る</a>
+			<a href="{{ route('/menu') }}">メニューへ戻る</a>
 		</div>
 	</div>
 	</header>
