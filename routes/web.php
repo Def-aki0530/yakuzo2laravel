@@ -42,6 +42,8 @@ Route::post('/searchorder','HatchuController@search');
 Route::get('/searchorder','HatchuController@search');
 
 Route::post('/createorder','HatchuController@dispShinki');
+Route::get('/createorder','HatchuController@dispshinki');
+Route::post('/inserthatchudata','HatchuController@insertHatchuData');
 Route::get('/searchorder','HatchuController@search');
 
 Route::post('/hatchuconfilm','HatchuController@hatchuConfilm');
@@ -53,3 +55,4 @@ Route::post('/torihikisakigetlist','HatchuController@torihikisakiGetList');
 Route::get('/yakuhinsansho','HatchuController@yakuhinSansho');
 Route::post('/yakuhingetpage','HatchuController@yakuhinGetPage');
 Route::post('/yakuhingetlist','HatchuController@yakuhinGetList');
+

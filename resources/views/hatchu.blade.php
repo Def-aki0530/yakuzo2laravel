@@ -76,8 +76,8 @@
                 <td class="text-left">
                     <select name="shogo_flg">
                         <option value="">--選択なし--</option>
-                        <option value="1" @if($shogo_flg=='1' ) selected @endif>未照合</option>
-                        <option value="2" @if($shogo_flg=='2' ) selected @endif>照合済み</option>
+                        <option value="0" @if($shogo_flg=='0' ) selected @endif>未照合</option>
+                        <option value="1" @if($shogo_flg=='1' ) selected @endif>照合済み</option>
                     </select>
                 </td>
             </tr>
@@ -140,8 +140,8 @@
                         @if($row->hatchu_kbn == '3') EPI @endif
                     </td>
                     <td class="mx-2 border">
-                        @if($row->shogo_flg == '1') 未照合 @endif
-                        @if($row->shogo_flg == '2') 照合済み @endif
+                        @if($row->shogo_flg == '0') 未照合 @endif
+                        @if($row->shogo_flg == '1') 照合済み @endif
                     </td>
                     <td class="mx-2 border">
                         @if($row->shori_kbn == '1') 未納品 @endif
