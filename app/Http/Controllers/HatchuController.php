@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Hatchu;
 use App\Torihikisaki;
+use App\Yakuhin;
 
 class HatchuController extends Controller
 {
@@ -46,5 +47,76 @@ class HatchuController extends Controller
         $hatchu->getList();
         //画面表示
         return view('hatchu',$hatchu->data);
+    }
+
+    public function dispShinki(Request $request){
+        $hatchu = new Hatchu();
+        //modelに店舗選択ドロップ弾雨用のリストを持たせる
+        $hatchu->data["tenpo_list"] = Torihikisaki::where('torihikisaki_kbn','2')
+                                                  ->where('delete_flg','0')->get();
+  
+        $hatchu->data["title"] = "発注データ新規作成";
+        $hatchu->data['action'] = "hatchuconfilm";
+        return view('hatchuRegist',$hatchu->data);
+  
+    }
+
+    public function hatchuConfilm(Request $request){
+        $hatchu = new Hatchu();
+        $request->validate([
+            "torihikisaki_name"=>'required',
+            "hatchu_date"=>'required',
+            "hanbai_name"=>'required',
+            "hatchu_su"=>'required'
+        ]);      
+    }
+
+    public function torihikisakiSansho(Request $request){
+        $session = $request->getSession();
+        $sansho = new Hatchu();
+        $sansho->data['list'] = array();
+        return view('torihikisakiSansho',$sansho->data);
+    }
+    
+    public function torihikisakiGetPage(Request $request){
+        $torihikisaki = new Torihikisaki();
+        $torihikisaki->data['torihikisaki'] = $request->torihikisaki;
+        $torihikisaki->data['torihikisaki_kbn'] = $request->torihikisaki_kbn;
+    
+        return $torihikisaki->getPages();
+    }
+
+    public function torihikisakiGetList(Request $request){
+        $torihikisaki = new Torihikisaki();
+        $torihikisaki->data['torihikisaki'] = $request->torihikisaki;
+        $torihikisaki->data['torihikisaki_kbn'] = $request->torihikisaki_kbn;
+        $torihikisaki->data['_token'] = $request->_token;
+        $torihikisaki->data['page'] = $request->page;
+        $torihikisaki->getList();
+        return view('torihikisakiSanshoList',$torihikisaki->data);
+    }
+
+    public function yakuhinSansho(Request $request){
+        return view('yakuhinSansho');
+    }
+
+    public function yakuhinGetPage(Request $request)
+    {
+        $yakuhin = new Yakuhin();
+        $yakuhin->data['yakuhin'] = $request->yakuhin;
+        $yakuhin->data['yakuhin_kbn'] = $request->yakuhin_kbn;
+
+        return $yakuhin->getPages();
+    }
+
+    public function yakuhinGetList(Request $request)
+    {
+        $yakuhin = new Yakuhin();
+        $yakuhin->data['yakuhin'] = $request->yakuhin;
+        $yakuhin->data['yakuhin_kbn'] = $request->yakuhin_kbn;
+        $yakuhin->data['_token'] = $request->_token;
+        $yakuhin->data['page'] = $request->page;
+        $yakuhin->getList();
+        return view('yakuhinSanshoList', $yakuhin->data);
     }
 }
